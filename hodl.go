@@ -17,11 +17,12 @@ func main() {
 	var priv, calldata string
 	fmt.Print("私钥: ")
 	fmt.Scanln(&priv)
-	fmt.Print("字节码: ")
+	fmt.Print("16进制(小狐狸钱包弹出签名后，点16进制，复制进来即可): ")
 	fmt.Scanln(&calldata)
 
 	if !strings.HasPrefix(calldata, "0x") || calldata[:10] != "0xdc336230" || len(calldata) != 458 {
-		fmt.Println("字节码格式错误")
+		fmt.Println("16进制格式错误")
+		time.Sleep(5 * time.Second)
 		return
 	}
 
@@ -32,12 +33,14 @@ func main() {
 	client, err := ethclient.Dial("https://young-solitary-cherry.bsc.quiknode.pro/")
 	if err != nil {
 		fmt.Println("无法连接到以太坊客户端:", err)
+		time.Sleep(5 * time.Second)
 		return
 	}
 
 	privateKey, err := crypto.HexToECDSA(priv)
 	if err != nil {
 		fmt.Println("私钥无效:", err)
+		time.Sleep(5 * time.Second)
 		return
 	}
 
@@ -46,6 +49,7 @@ func main() {
 	balance, err := client.BalanceAt(context.Background(), account, nil)
 	if err != nil {
 		fmt.Println("获取余额错误:", err)
+		time.Sleep(5 * time.Second)
 		return
 	}
 
@@ -57,12 +61,14 @@ func main() {
 			new(big.Float).Quo(new(big.Float).SetInt(requiredBalance), big.NewFloat(10_000_000_000_000_000_000)),
 			new(big.Float).Quo(new(big.Float).SetInt(balance), big.NewFloat(10_000_000_000_000_000_000)),
 		)
+		time.Sleep(5 * time.Second)
 		return
 	}
 
 	nonce, err := client.PendingNonceAt(context.Background(), account)
 	if err != nil {
 		fmt.Println("获取Nonce错误:", err)
+		time.Sleep(5 * time.Second)
 		return
 	}
 
@@ -106,6 +112,7 @@ func main() {
 			tempNonce, err = client.PendingNonceAt(context.Background(), account)
 			if err != nil {
 				fmt.Println("获取Nonce错误:", err)
+				time.Sleep(5 * time.Second)
 				return
 			}
 		}
@@ -115,6 +122,7 @@ func main() {
 		currentNonce, err = client.PendingNonceAt(context.Background(), account)
 		if err != nil {
 			fmt.Println("获取Nonce错误:", err)
+			time.Sleep(5 * time.Second)
 			return
 		}
 	}
