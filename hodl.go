@@ -30,7 +30,7 @@ func main() {
 	fmt.Print("数量: ")
 	fmt.Scanln(&maxAmt)
 
-	client, err := ethclient.Dial("https://young-solitary-cherry.bsc.quiknode.pro/")
+	client, err := ethclient.Dial("https://quiet-falling-replica.bsc.quiknode.pro/0412c14b6cd8b68042872728c8f9e31dbe37f49b/")
 	if err != nil {
 		fmt.Println("无法连接到以太坊客户端:", err)
 		time.Sleep(5 * time.Second)
